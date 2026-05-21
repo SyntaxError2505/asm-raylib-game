@@ -7,6 +7,7 @@
 screenWidth: .long 800
 screenHeight: .long 450
 screenName: .string "ASM btw"
+worksMessage: .string "working\n"
 
 .section .text
     .globl main
@@ -16,9 +17,12 @@ screenName: .string "ASM btw"
 
 game_loop:
     subq $8, %rsp
-    call WindowShouldClose
-    addq $8, %rsp
+    #look if the loop is running
+    mov $worksMessage, %rdi
+    xor %al, %al
+    call printf
 
+    call WindowShouldClose
     testl %eax, %eax
     jz game_loop
     ret
@@ -38,5 +42,7 @@ main:
 
     call InitWindow
     call game_loop
+
+    call CloseWindow
     addq $8, %rsp
     ret

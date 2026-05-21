@@ -12,7 +12,6 @@
 screenWidth: .long 800
 screenHeight: .long 450
 screenName: .string "ASM btw"
-binaryTestMessage: .string "%b\n"
 
 .section .text
     .globl main
@@ -36,20 +35,16 @@ game_loop:
     # Draw calls inside here
     call BeginDrawing
 
-    # Define a small color struct (4*8bit in rdi representing rgba)
+    # Define a color struct (4*8bit in rdi representing rgba)
     mov $255, %dil
     mov $0, %sil
     mov $0, %dl
     mov $255, %cl
     call qword_from_4_bytes
 
+    # make background red
     movq %rax, %rdi
     call ClearBackground
-
-    movq $binaryTestMessage, %rdi
-    movq %rax, %rsi
-    xor %al, %al
-    call printf
 
     call EndDrawing
     

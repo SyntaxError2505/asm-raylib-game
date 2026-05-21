@@ -5,6 +5,7 @@
 .extern printf
 
 .extern BeginDrawing
+.extern DrawCircle
 .extern EndDrawing
 .extern ClearBackground
 
@@ -45,6 +46,24 @@ game_loop:
     # make background red
     movq %rax, %rdi
     call ClearBackground
+
+    # draw circle
+    # calculate its colour
+    mov $255, %dil
+    mov $255, %sil
+    mov $0, %dl
+    mov $0, %cl
+    call qword_from_4_bytes
+    mov %rax, %rdx
+
+    # calculate position and radius
+    movq $400, %rdi
+    movq $250, %rsi
+    movq $50, %rax
+    cvtsi2ss %rax, %xmm0
+
+    # draw it
+    call DrawCircle
 
     call EndDrawing
     

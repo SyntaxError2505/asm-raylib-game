@@ -37,9 +37,9 @@ game_loop:
 
     # Define a color struct (4*8bit in rdi representing rgba)
     mov $255, %dil
-    mov $0, %sil
-    mov $0, %dl
-    mov $255, %cl
+    mov $50, %sil
+    mov $50, %dl
+    mov $50, %cl
     call qword_from_4_bytes
 
     # make background red

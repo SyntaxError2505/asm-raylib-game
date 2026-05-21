@@ -2,12 +2,17 @@
 .extern WindowShouldClose
 .extern CloseWindow
 .extern SetTargetFPS
+.extern printf
+
+.extern BeginDrawing
+.extern EndDrawing
+.extern ClearBackground
 
 .section .rodata
 screenWidth: .long 800
 screenHeight: .long 450
 screenName: .string "ASM btw"
-worksMessage: .string "working\n"
+binaryTestMessage: .string "%b\n"
 
 .section .text
     .globl main
@@ -15,14 +20,42 @@ worksMessage: .string "working\n"
 
 # if you dont know what it does, you could be kinda stupid
 
+qword_from_4_bytes:
+    xorq %rax, %rax
+    mov %dil, %al
+    shlq $8, %rax
+    mov %sil, %al
+    shlq $8, %rax
+    mov %dl, %al
+    shlq $8, %rax
+    mov %cl, %al
+    ret
+
 game_loop:
     subq $8, %rsp
-    #look if the loop is running
-    mov $worksMessage, %rdi
+    # Draw calls inside here
+    call BeginDrawing
+
+    # Define a small color struct (4*8bit in rdi representing rgba)
+    mov $255, %dil
+    mov $0, %sil
+    mov $0, %dl
+    mov $255, %cl
+    call qword_from_4_bytes
+
+    movq %rax, %rdi
+    call ClearBackground
+
+    movq $binaryTestMessage, %rdi
+    movq %rax, %rsi
     xor %al, %al
     call printf
 
+    call EndDrawing
+    
+    # Check if the window needs to close
     call WindowShouldClose
+    addq $8, %rsp
     testl %eax, %eax
     jz game_loop
     ret

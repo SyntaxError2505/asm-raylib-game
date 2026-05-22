@@ -13,6 +13,7 @@
           gnumake
           gcc
           raylib
+          pkgconf
         ];
         shellHook = ''
           echo "Welcome to the dev shell. Have fun writing 0s and 1s!"

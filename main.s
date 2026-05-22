@@ -66,7 +66,6 @@ game_loop:
     # calculate position and radius (position on the stack)
     movq +24(%rsp), %rdi
     movq +16(%rsp), %rsi
-   
     movl $50, %eax
     cvtsi2ss %rax, %xmm0
 

@@ -96,7 +96,7 @@ main:
 
     # Push y and x to stack
     pushq $400
-    pushq $250
+    pushq $225
 
     call InitWindow
     call game_loop

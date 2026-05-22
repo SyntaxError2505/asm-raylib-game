@@ -63,18 +63,15 @@ game_loop:
     call qword_from_4_bytes
     mov %rax, %rdx
 
-    # calculate position and radius
-    
-    movq $400, %rdi
-    movq $250, %rsi
+    # calculate position and radius (position on the stack)
+    movq +24(%rsp), %rdi
+    movq +16(%rsp), %rsi
+   
     movl $50, %eax
     cvtsi2ss %rax, %xmm0
 
     # draw it
     call DrawCircle
-
-    mov $5, %rdi
-    call printdbg
 
     call EndDrawing
     

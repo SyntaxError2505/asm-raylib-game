@@ -13,12 +13,19 @@
 screenWidth: .long 800
 screenHeight: .long 450
 screenName: .string "ASM btw"
+printint: .string "%i\n"
 
 .section .text
     .globl main
     .type main, @function
 
 # if you dont know what it does, you could be kinda stupid
+
+printdbg:
+    xorq %rax, %rax
+    mov %rdi, %rsi
+    mov $printint, %rdi
+    call printf
 
 qword_from_4_bytes:
     xorq %rax, %rax
@@ -57,13 +64,17 @@ game_loop:
     mov %rax, %rdx
 
     # calculate position and radius
+    
     movq $400, %rdi
     movq $250, %rsi
-    movq $50, %rax
+    movl $50, %eax
     cvtsi2ss %rax, %xmm0
 
     # draw it
     call DrawCircle
+
+    mov $5, %rdi
+    call printdbg
 
     call EndDrawing
     
@@ -86,6 +97,10 @@ main:
     movl $screenHeight, %esi
     movl (%esi), %esi
     movq $screenName, %rdx
+
+    # Push y and x to stack
+    pushq $400
+    pushq $250
 
     call InitWindow
     call game_loop
